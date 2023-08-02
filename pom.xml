@@ -13,6 +13,8 @@
         <module>_1_fundamentals</module>
         <module>_2_advanced</module>
         <module>_3_jdbc</module>
+        <module>_4_spring_context</module>
+        <module>_5_spring-boot-product-app</module>
     </modules>
 
     <properties>

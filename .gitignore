@@ -1,5 +1,7 @@
-# Project exclude paths
-/_1_fundamentals/target/
-/_2_advanced/target/
-/.idea/
-/_3_jdbc/target/
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Maven
+*/target/
