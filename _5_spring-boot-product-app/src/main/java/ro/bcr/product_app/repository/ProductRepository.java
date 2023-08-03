@@ -1,18 +1,15 @@
 package ro.bcr.product_app.repository;
 
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ro.bcr.product_app.config.ProjectConfig;
 import ro.bcr.product_app.model.Product;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -55,4 +52,30 @@ public class ProductRepository {
                     rs.getString("description"));
         }, id);
     }
+
+    public void addProductsWithoutTx(List<Product> products){
+        String sql = "INSERT INTO product(name, description) VALUES(?, ?)";
+        for(int i = 0; i < products.size(); i++){
+            jdbcTemplate.update(sql, products.get(i).getName(), products.get(i).getDescription());
+            // we simulated that something wrong is happening while adding products to db
+            if(i == 2){
+                throw new RuntimeException("Something wrong occurred");
+            }
+        }
+    }
+
+    // https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth
+    @Transactional
+    public void addProductsWithTransaction(List<Product> products){
+        String sql = "INSERT INTO product(name, description) VALUES(?, ?)";
+        for(int i = 0; i < products.size(); i++){
+            jdbcTemplate.update(sql, products.get(i).getName(), products.get(i).getDescription());
+            // we simulated that something wrong is happening while adding products to db
+            if(i == 2){
+                throw new RuntimeException("Something wrong occurred");
+            }
+        }
+    }
+
+
 }

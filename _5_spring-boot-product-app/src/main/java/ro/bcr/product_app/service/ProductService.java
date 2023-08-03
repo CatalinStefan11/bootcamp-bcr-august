@@ -34,4 +34,14 @@ public class ProductService {
         log.info("Retrieving product with {}", id);
         return productRepository.findById(id);
     }
+
+    public void addProductsWithoutTx(List<Product> products){
+        log.info("Adding products without transaction");
+        productRepository.addProductsWithoutTx(products);
+    }
+
+    public void addProductsWithTransaction(List<Product> products){
+        log.info("Adding products with transaction");
+        productRepository.addProductsWithTransaction(products);
+    }
 }

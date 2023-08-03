@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableTransactionManagement
 public class ProjectConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectConfig.class);
@@ -51,5 +55,12 @@ public class ProjectConfig {
         // we create a new datasource, it means that we tell
         // spring to inject the datasource dependency here
         return new JdbcTemplate(dataSource());
+    }
+
+    // DataSource ds -> is injected automatically by string here
+    // because we have a @Bean defined above of type Datasource
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource ds){
+        return new DataSourceTransactionManager(ds);
     }
 }

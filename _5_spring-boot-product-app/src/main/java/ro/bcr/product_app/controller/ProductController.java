@@ -39,7 +39,14 @@ public class ProductController {
         return productService.findById(id);
     }
 
+    @PostMapping("/products-without-tx")
+    public void addProductsWithoutTx(@RequestBody List<Product> products){
+        productService.addProductsWithoutTx(products);
+    }
 
-
+    @PostMapping("/products-with-tx")
+    public void addProductsWithTx(@RequestBody List<Product> products){
+        productService.addProductsWithTransaction(products);
+    }
 
 }
