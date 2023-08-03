@@ -1,11 +1,13 @@
 package ro.bcr.product_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ro.bcr.product_app.model.Product;
 import ro.bcr.product_app.service.ProductService;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -18,7 +20,26 @@ public class ProductController {
     }
 
     @PostMapping("/product/add")
-    public void addProduct(@RequestBody Product p){
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addProduct(@RequestBody Product p) {
         productService.addProduct(p);
     }
+
+    @GetMapping("/products/all")
+    public List<Product> getAllProducts() {
+        return productService.getProducts();
+    }
+
+    // http://api/1 -> path param
+    // http://api?queryParam1=value1&queryParam2=value2 -> queryParam/requestParam
+
+    // path variable / path param
+    @GetMapping("/product/{id}")
+    public Product findById(@PathVariable long id){
+        return productService.findById(id);
+    }
+
+
+
+
 }
